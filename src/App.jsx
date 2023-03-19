@@ -1,33 +1,30 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import Pokemon from './components/Pokemon';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currPokemonNum, setCurrentPokemonNum] = useState(Math.floor(Math.random() * 1010) + 1);
+
+  // Randomly generate new pokemon number between 1 and 1010
+  const generateNewPokemonNum = () => {
+    let newNum = Math.floor(Math.random() * 1010) + 1;
+    setCurrentPokemonNum(newNum);
+  }
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+      <div className='description-container'>
+        <h1>Pokémon Gallery</h1>
+        <h3>Discover Pokémon you never knew existed!</h3>
+
+        <Pokemon pokemonNum={currPokemonNum}/>
+        
+        <button type='button' 
+        title='Generate new Pokémon' 
+        onClick={generateNewPokemonNum}>
+          Discover!
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
   )
 }
