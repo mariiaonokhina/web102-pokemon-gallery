@@ -16,3 +16,7 @@ body {
   justify-content: center;
   text-align: center;
 }
+
+.pokemon::first-letter {
+  text-transform: capitalize;
+}

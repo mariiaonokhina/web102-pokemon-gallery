@@ -30,6 +30,7 @@ const Pokemon = () => {
         const url = `https://pokeapi.co/api/v2/pokemon/${currPokemonNum}`;
 
         const newPokemon  = await axios.get(url).then(result => {
+            console.log(result.data);
             setCurrentPokemonInfo(result.data);
         });
 
@@ -39,7 +40,7 @@ const Pokemon = () => {
 
     return (
         <div className='pokemon'>
-            <h1>{currPokemonNum}</h1>
+            <h1>{currPokemonInfo.name} {currPokemonNum}</h1>
             <img className='pokemon-current-img' src={currPokemonImage} height='400px' width='400px' />
 
             <button type='button' 
