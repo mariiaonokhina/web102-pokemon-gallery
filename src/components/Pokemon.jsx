@@ -40,10 +40,13 @@ const Pokemon = () => {
 
     return (
         <div className='pokemon'>
-            <h1>{currPokemonInfo.name} {currPokemonNum}</h1>
+            <h1 className='pokemon-name'>{currPokemonInfo.name} ({currPokemonNum})</h1>
+            <h3 className='pokemon-info'></h3>
             <img className='pokemon-current-img' src={currPokemonImage} height='400px' width='400px' />
 
-            <button type='button' 
+            <button 
+            id='discover-button' 
+            type='button' 
             title='Generate new Pokémon' 
             onClick={generateNewPokemon}>
                 Discover!
