@@ -4,7 +4,10 @@ import axios from 'axios';
 
 const Pokemon = () => {
     let [currPokemonNum, setCurrentPokemonNum] = useState(0);
-    const [currPokemonInfo, setCurrentPokemonInfo] = useState('')
+    let [currPokemonInfo, setCurrentPokemonInfo] = useState('');
+    let [currPokemonType, setCurrentPokemonType] = useState('');
+    let [currPokemonAbility1, setCurrentPokemonAbility1] = useState('');
+    let [currPokemonAbility2, setCurrentPokemonAbility2] = useState('');
     const [currPokemonImage, setCurrentPokemonImage] = useState('');
 
     const generateNewPokemon = async () => {
@@ -29,28 +32,108 @@ const Pokemon = () => {
         // Fetch data from PokeAPI version 2
         const url = `https://pokeapi.co/api/v2/pokemon/${currPokemonNum}`;
 
-        const newPokemon  = await axios.get(url).then(result => {
-            console.log(result.data);
-            setCurrentPokemonInfo(result.data);
-        });
+        const response = await axios.get(url).then(result => {return result});
+        const data = await response.data;
+
+        if (checkIfBanned(data)) {
+            console.log(checkIfBanned(data))
+            generateNewPokemon();
+        }
+
+        else {
+            console.log(checkIfBanned(data))
+            setCurrentPokemonInfo(currPokemonInfo = data);
+            setCurrentPokemonType(currPokemonType = currPokemonInfo.types[0].type.name);
+            setCurrentPokemonAbility1(currPokemonAbility1 = currPokemonInfo.abilities[0].ability.name);
+            setCurrentPokemonAbility2(currPokemonAbility2 = currPokemonInfo.abilities[1].ability.name);
+        }
 
         // Take higher quality image from GitHub repository
         setCurrentPokemonImage(`https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/imagesHQ/${formattedNum}.png`)
     }
 
-    return (
-        <div className='pokemon'>
-            <h1 className='pokemon-name'>{currPokemonInfo.name} ({currPokemonNum})</h1>
-            <h3 className='pokemon-info'></h3>
-            <img className='pokemon-current-img' src={currPokemonImage} height='400px' width='400px' />
+    const checkIfBanned = (data) => {
+        console.log(bannedValues);
+        if (bannedValues.includes(data.types[0].type.name) || 
+        bannedValues.includes(data.abilities[0].ability.name) || 
+        bannedValues.includes(data.abilities[1].ability.name)) {
+            return true;
+        }
 
-            <button 
-            id='discover-button' 
-            type='button' 
-            title='Generate new Pokémon' 
-            onClick={generateNewPokemon}>
-                Discover!
-            </button>
+        else {
+            return false;
+        }
+    }
+
+    const banList = document.getElementById('ban-list');
+    let bannedValues = [];
+    let banListLength = 0;
+
+    const addToBanList = (value) => {
+        if (banListLength < 6) {
+            let newElement = document.createElement('h3');
+            newElement.classList.add('ban-list-item');
+            newElement.innerHTML = value;
+            newElement.onclick = function() {removeFromBanList(this)};
+
+            if(!bannedValues.includes(value)) {
+                banList.append(newElement);
+                bannedValues.push(value);
+                banListLength++;
+                console.log(bannedValues);
+            }
+        }
+        
+        else {
+            alert('Too many items in the ban list!');
+        }
+    }
+
+    const removeFromBanList = (element) => {
+        bannedValues.slice(bannedValues.indexOf(element.innerHTML), 2);
+        banListLength--;
+        element.remove();
+        console.log(bannedValues);
+    }
+
+    generateNewPokemon;
+
+    return (
+        <div className='pokemon-container'>
+            <div className='pokemon'>
+                {currPokemonNum != 0? 
+                    <h1 className='pokemon-name'>
+                        {currPokemonInfo.name} - ({currPokemonNum})
+                    </h1> 
+                : ''}
+
+                {currPokemonNum == 0? ''
+                : <div className='pokemon-info'>
+                    <h3 className='pokemon-type' onClick={() => addToBanList(currPokemonType)}>{currPokemonType}</h3>
+                    <h3 className='pokemon-type' onClick={() => addToBanList(currPokemonAbility1)}>{currPokemonAbility1}</h3>
+                    <h3 className='pokemon-type' onClick={() => addToBanList(currPokemonAbility2)}>{currPokemonAbility2}</h3>
+                </div>}
+
+                {currPokemonNum != 0? 
+                    <img className='pokemon-current-img' src={currPokemonImage}/>
+                : ''}
+
+                {currPokemonNum == 0?
+                    <h1>Click the button below to generate new Pokémon!</h1>
+                : ''}
+
+                <button 
+                id='discover-button' 
+                type='button' 
+                title='Generate new Pokémon' 
+                onClick={generateNewPokemon}>
+                    Discover!
+                </button>
+            </div>
+
+            <div id='ban-list'>
+                <h1>Ban List</h1>
+            </div>
         </div>
     )
 }

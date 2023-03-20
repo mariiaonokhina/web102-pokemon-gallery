@@ -2,7 +2,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  background-image: url('public/background.jpg');
+  background-image: url('/background.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -18,19 +18,26 @@ body {
   text-align: center;
 }
 
+.pokemon-container {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  margin-bottom: 2vh;
+}
+
 .pokemon {
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 2vh;
-  margin-bottom: 2vh;
   border: 2px black solid;
 }
 
 .pokemon-current-img {
   align-self: center;
   height: 50vh;
-  width: 100%;
+  width: 50vh;
 }
 
 .pokemon-name {
@@ -70,4 +77,40 @@ body {
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
   color: rgba(0, 0, 0, 0.65);
   transform: translateY(0);
+}
+
+.pokemon-info {
+  display: flex;
+  justify-content: center;
+}
+
+.pokemon-type {
+  margin: 1vh 4vh;
+  padding: 1vh;
+  height: fit-content;
+  width: fit-content;
+  background-color: rgba(144, 238, 144, 0.7);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#ban-list {
+  width: 22vw;
+  padding: 2vh;
+  height: auto;
+  border: 2px black solid;
+  border-left: none;
+  display: flex;
+  place-items: center;
+  flex-direction: column;
+}
+
+.ban-list-item {
+  padding: 1vh;
+  background-color: rgba(239, 106, 108, 0.5);
+  position: relative;
+  height: fit-content;
+  width: 100%;
+  border-radius: 10px;
+  cursor: pointer;
 }
