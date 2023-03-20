@@ -8,7 +8,12 @@ const Pokemon = () => {
     let [currPokemonType, setCurrentPokemonType] = useState('');
     let [currPokemonAbility1, setCurrentPokemonAbility1] = useState('');
     let [currPokemonAbility2, setCurrentPokemonAbility2] = useState('');
-    const [currPokemonImage, setCurrentPokemonImage] = useState('');
+    let [currPokemonImage, setCurrentPokemonImage] = useState('');
+
+    let [bannedValues, setBannedValues] = useState([]);
+    let [banListLength, setBanListLength] = useState(0);
+
+    const banList = document.getElementById('ban-list');
 
     const generateNewPokemon = async () => {
         // Randomly generate new pokemon number between 1 and 777
@@ -36,12 +41,10 @@ const Pokemon = () => {
         const data = await response.data;
 
         if (checkIfBanned(data)) {
-            console.log(checkIfBanned(data))
             generateNewPokemon();
         }
 
         else {
-            console.log(checkIfBanned(data))
             setCurrentPokemonInfo(currPokemonInfo = data);
             setCurrentPokemonType(currPokemonType = currPokemonInfo.types[0].type.name);
             setCurrentPokemonAbility1(currPokemonAbility1 = currPokemonInfo.abilities[0].ability.name);
@@ -49,13 +52,12 @@ const Pokemon = () => {
         }
 
         // Take higher quality image from GitHub repository
-        setCurrentPokemonImage(`https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/imagesHQ/${formattedNum}.png`)
+        setCurrentPokemonImage(currPokemonImage = `https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/imagesHQ/${formattedNum}.png`)
     }
 
     const checkIfBanned = (data) => {
-        console.log(bannedValues);
-        if (bannedValues.includes(data.types[0].type.name) || 
-        bannedValues.includes(data.abilities[0].ability.name) || 
+        if (bannedValues.includes(data.types[0].type.name) | 
+        bannedValues.includes(data.abilities[0].ability.name) | 
         bannedValues.includes(data.abilities[1].ability.name)) {
             return true;
         }
@@ -64,10 +66,6 @@ const Pokemon = () => {
             return false;
         }
     }
-
-    const banList = document.getElementById('ban-list');
-    let bannedValues = [];
-    let banListLength = 0;
 
     const addToBanList = (value) => {
         if (banListLength < 6) {
@@ -79,7 +77,7 @@ const Pokemon = () => {
             if(!bannedValues.includes(value)) {
                 banList.append(newElement);
                 bannedValues.push(value);
-                banListLength++;
+                setBanListLength(banListLength += 1);
                 console.log(bannedValues);
             }
         }
@@ -90,8 +88,11 @@ const Pokemon = () => {
     }
 
     const removeFromBanList = (element) => {
-        bannedValues.slice(bannedValues.indexOf(element.innerHTML), 2);
-        banListLength--;
+        bannedValues.splice(bannedValues.indexOf(element.innerHTML), 1);
+        console.log(element.innerHTML);
+        
+        setBanListLength(banListLength -= 1);
+        console.log(banListLength)
         element.remove();
         console.log(bannedValues);
     }

@@ -2,9 +2,9 @@
 
 Submitted by: **Mariia Onokhina**
 
-This web app: **insert description**
+This web app: **is a showcase for 777 types of Pokémon. It uses PokeApi to get the information about Pokémon, as well as HybridShivam's repository containing high quality images (https://github.com/HybridShivam/Pokemon).**
 
-Time spent: **11** hours spent in total
+Time spent: **12** hours spent in total
 
 ## Required Features
 
@@ -15,7 +15,7 @@ The following **required** functionality is completed:
 - [X] **API calls appear random to the user**
 - [X] **At least one image is displayed per API call**
 - [X] **Clicking on a displayed value for one attribute adds it to a displayed ban list**
-- [ ] **Attributes on the ban list prevent further images/API results with that attribute from being displayed**
+- [X] **Attributes on the ban list prevent further images/API results with that attribute from being displayed**
 
 The following **optional** features are implemented:
 
@@ -41,7 +41,10 @@ GIF created with ...
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+* I couldn't get the API attributes to work properly. It would always result in an error. It turns out I was trying to get attributes from API response and not response.data.
+* There are not many APIs with high quality Pokemon images that worked for me. PokeAPI has images in retro pixel style.
+* The loading time of the images is a bit slow because I'm using high quality PNG images. However, compared to another API I was trying to use, these images work much faster.
+* Ban list didn't work properly until I figured out that I had to use state variables instead of regular Javascript variables.
 
 ## License
 
