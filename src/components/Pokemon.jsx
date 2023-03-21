@@ -13,7 +13,11 @@ const Pokemon = () => {
     let [bannedValues, setBannedValues] = useState([]);
     let [banListLength, setBanListLength] = useState(0);
 
+    let [previouslySeen, setPreviouslySeen] = useState([]);
+    let [previousNum, setPreviousNum] = useState('');
+
     const banList = document.getElementById('ban-list');
+    const historyDiv = document.getElementById('previously-seen')
 
     const generateNewPokemon = async () => {
         // Randomly generate new pokemon number between 1 and 777
@@ -40,6 +44,10 @@ const Pokemon = () => {
         const response = await axios.get(url).then(result => {return result});
         const data = await response.data;
 
+        if (data.abilities.length < 2) {
+            generateNewPokemon();
+        }
+
         if (checkIfBanned(data)) {
             generateNewPokemon();
         }
@@ -49,10 +57,17 @@ const Pokemon = () => {
             setCurrentPokemonType(currPokemonType = currPokemonInfo.types[0].type.name);
             setCurrentPokemonAbility1(currPokemonAbility1 = currPokemonInfo.abilities[0].ability.name);
             setCurrentPokemonAbility2(currPokemonAbility2 = currPokemonInfo.abilities[1].ability.name);
-        }
 
-        // Take higher quality image from GitHub repository
-        setCurrentPokemonImage(currPokemonImage = `https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/imagesHQ/${formattedNum}.png`)
+            // Take higher quality image from GitHub repository
+            setCurrentPokemonImage(currPokemonImage = `https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/imagesHQ/${formattedNum}.png`)
+            
+            if(previouslySeen.length != 0) {
+                addToHistory(previouslySeen[previouslySeen.length - 1], previousNum);
+            }
+
+            setPreviousNum(previousNum = formattedNum);
+            previouslySeen.push(data);
+        }
     }
 
     const checkIfBanned = (data) => {
@@ -78,7 +93,6 @@ const Pokemon = () => {
                 banList.append(newElement);
                 bannedValues.push(value);
                 setBanListLength(banListLength += 1);
-                console.log(bannedValues);
             }
         }
         
@@ -89,18 +103,38 @@ const Pokemon = () => {
 
     const removeFromBanList = (element) => {
         bannedValues.splice(bannedValues.indexOf(element.innerHTML), 1);
-        console.log(element.innerHTML);
         
         setBanListLength(banListLength -= 1);
-        console.log(banListLength)
         element.remove();
-        console.log(bannedValues);
+    }
+
+    const addToHistory = (data, num) => {
+        let elem = document.createElement('div');
+        elem.classList.add('history-item');
+
+        let img = document.createElement('img');
+        img.classList.add('history-item-image');
+        img.src = `https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/imagesHQ/${num}.png`;
+
+        let capitalName = data.name[0].toUpperCase() + data.name.substring(1);
+
+        let info = document.createElement('p');
+        info.classList.add('history-item-info');
+        info.innerHTML = capitalName + ' #' + data.id + ': \n A ' + data.types[0].type.name + ' Pokémon. \n Abilities: ' + data.abilities[0].ability.name + ', ' + data.abilities[1].ability.name;
+
+        elem.append(img);
+        elem.append(info);
+        historyDiv.append(elem);
     }
 
     generateNewPokemon;
 
     return (
         <div className='pokemon-container'>
+            <div id='previously-seen'>
+                <h1>History: </h1>
+            </div>
+
             <div className='pokemon'>
                 {currPokemonNum != 0? 
                     <h1 className='pokemon-name'>

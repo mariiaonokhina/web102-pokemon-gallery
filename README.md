@@ -4,7 +4,7 @@ Submitted by: **Mariia Onokhina**
 
 This web app: **is a showcase for 777 types of Pokémon. It uses PokeApi to get the information about Pokémon, as well as HybridShivam's repository containing high quality images (https://github.com/HybridShivam/Pokemon).**
 
-Time spent: **12** hours spent in total
+Time spent: **13** hours spent in total
 
 ## Required Features
 
@@ -20,11 +20,11 @@ The following **required** functionality is completed:
 The following **optional** features are implemented:
 
 - [X] Multiple types of attributes can be added to the ban list
-- [ ] Users can see a stored history of their previously viewed items from their session
+- [X] Users can see a stored history of their previously viewed items from their session
 
 The following **additional** features are implemented:
 
-* [ ] List anything else that you added to improve the site's functionality!
+* [X] No more than 6 ban list attributes can be added at the same time.
 
 ## Video Walkthrough
 

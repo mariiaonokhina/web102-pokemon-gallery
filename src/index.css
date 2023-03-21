@@ -114,3 +114,28 @@ body {
   border-radius: 10px;
   cursor: pointer;
 }
+
+#previously-seen {
+  width: 22vw;
+  padding: 2vh;
+  height: 76vh;
+  border: 2px black solid;
+  border-right: none;
+  display: flex;
+  place-items: center;
+  flex-direction: column;
+  overflow: scroll;
+}
+
+.history-item {
+  position: relative;
+  height: 100%;
+  width: 90%;
+  display: flex;
+  place-items: center;
+  flex-direction: column;
+}
+
+.history-item-image {
+  height: 15vh;
+}
